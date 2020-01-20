@@ -54,6 +54,8 @@ Non-comprehensive list of changes in this release
    Makes programs 10x faster by doing Special New Thing.
 
 
+* ...
+
 Changes to the LLVM IR
 ----------------------
 
