@@ -26,6 +26,14 @@ ELF Improvements
 
 * ...
 
+* New ``elf32btsmipn32_fbsd`` and ``elf32ltsmipn32_fbsd`` emulations
+  are supported.
+
+* Relax MIPS ``jalr``and ``jr`` instructions marked by the ``R_MIPS_JALR``
+  relocation.
+
+* Reduced size of linked MIPS binaries.
+
 COFF Improvements
 -----------------
 
