@@ -88,6 +88,19 @@ Changes to the PowerPC Target
 
 During this release ...
 
+Changes to the SystemZ Target
+-----------------------------
+
+* Added support for the ``-march=z15`` and ``-mtune=z15`` command line options
+  (as aliases to the existing ``-march=arch13`` and ``-mtune=arch13`` options).
+* Added support for the ``-march=native`` command line option.
+* Added support for the ``-mfentry``, ``-mnop-mcount``, and ``-mrecord-mcount``
+  command line options.
+* Added support for the GHC calling convention.
+* Miscellaneous codegen enhancements, in particular to enable better
+  reuse of condition code values and improved use of conditional
+  move instructions.
+
 Changes to the X86 Target
 -------------------------
 
