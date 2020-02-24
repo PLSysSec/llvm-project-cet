@@ -135,7 +135,7 @@ New Pragmas in Clang
 Attribute Changes in Clang
 --------------------------
 
-- ...
+- Support was added for function ``__attribute__((target("branch-protection=...")))``
 
 Windows Support
 ---------------
