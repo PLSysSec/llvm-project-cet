@@ -54,7 +54,15 @@ Non-comprehensive list of changes in this release
    Makes programs 10x faster by doing Special New Thing.
 
 
-* ...
+* The inter-procedural analysis and optimization capabilities in the Attributor
+  framework and pass have been substantially advanced (initial commit
+  `D59918 <https://reviews.llvm.org/D59918>`_, `LLVM-Dev talk <https://youtu.be/CzWkc_JcfS0>`_).
+  In this release, 19 different attributes are inferred, including 12 LLVM IR
+  attributes and 7 "abstract" attributes, such as liveness. The Attributor is
+  still under heavy development and disabled by default, to enable an early run
+  pass ``-mllvm -attributor-disable=false`` to an invocation of clang.
+
+
 
 Changes to the LLVM IR
 ----------------------
