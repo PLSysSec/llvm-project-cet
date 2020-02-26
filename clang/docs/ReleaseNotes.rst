@@ -72,6 +72,9 @@ Non-comprehensive list of changes in this release
 * For the WebAssembly target, the ``wasm-opt`` tool will now be run if it is
   found in the PATH, which can reduce code size.
 
+* For the RISC-V target, floating point registers can now be used in inline
+  assembly constraints.
+
 New Compiler Flags
 ------------------
 
@@ -86,6 +89,13 @@ New Compiler Flags
 - -ffp-model={precise,strict,fast} provides the user an umbrella option to
   simplify access to the many single purpose floating point options. The default
   setting is ``precise``.
+
+- The `-ffixed-xX` flags now work on RISC-V. These reserve the corresponding
+  general-purpose registers.
+
+- RISC-V has added `-mcmodel=medany` and `-mcmodel=medlow` as aliases for
+  `-mcmodel=small` and `-mcmodel=medium` respectively. Preprocessor definitions
+  for `__riscv_cmodel_medlow` and `__riscv_cmodel_medany` have been corrected.
 
 Deprecated Compiler Flags
 -------------------------
@@ -133,6 +143,12 @@ Modified Compiler Flags
 - ``-debug-info-kind`` now has an option ``-debug-info-kind=constructor``,
   which is one level below ``-debug-info-kind=limited``. This option causes
   debug info for classes to be emitted only when a constructor is emitted.
+
+- RISC-V now chooses a slightly different sysroot path and defaults to using
+  compiler-rt if no GCC installation is detected.
+
+- RISC-V now supports multilibs in baremetal environments. This support does not
+  extend to supporting multilib aliases.
 
 New Pragmas in Clang
 --------------------
@@ -216,6 +232,11 @@ OpenCL C Language Changes in Clang
 ABI Changes in Clang
 --------------------
 
+
+- RISC-V now uses `target-abi` module metadata to encode the chosen psABI. This
+  ensures that the correct lowering will be done by LLVM when LTO is enabled.
+
+- An issue with lowering return types in the RISC-V ILP32D psABI has been fixed.
 
 OpenMP Support in Clang
 -----------------------
