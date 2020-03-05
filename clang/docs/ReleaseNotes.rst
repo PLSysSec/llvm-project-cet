@@ -366,6 +366,8 @@ clang-format
           bar();
         });
 
+- Option ``AlwaysBreakAfterReturnType`` now manages all operator functions.
+
 libclang
 --------
 
