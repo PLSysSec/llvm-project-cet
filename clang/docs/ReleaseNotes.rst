@@ -54,7 +54,7 @@ Improvements to Clang's diagnostics
 - -Wpointer-to-int-cast is a new warning group. This group warns about C-style
   casts of pointers to a integer type too small to hold all possible values.
 
-- The new warnings ``Wc99-designator`` and ``-Wreorder-init-list`` warn about
+- The new warnings ``-Wc99-designator`` and ``-Wreorder-init-list`` warn about
   uses of C99 initializers in C++ mode for cases that are valid in C99 but not
   in C++20.
 
