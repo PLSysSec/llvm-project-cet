@@ -47,6 +47,8 @@ Major New Features
 Improvements to clangd
 ----------------------
 
+- clangd documentation is now found at https://clangd.llvm.org/
+
 - Go-to-definition, hover, find-references etc use a new mechanism to identify
   what is under the cursor, which is (hopefully) more consistent and accurate.
 
