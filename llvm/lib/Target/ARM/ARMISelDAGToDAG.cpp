@@ -3612,59 +3612,59 @@ void ARMDAGToDAGISel::Select(SDNode *N) {
     CurDAG->RemoveDeadNode(N);
     return;
   }
-  case ARMISD::LDRD: {
-    if (Subtarget->isThumb2())
-      break; // TableGen handles isel in this case.
-    SDValue Base, RegOffset, ImmOffset;
-    const SDValue &Chain = N->getOperand(0);
-    const SDValue &Addr = N->getOperand(1);
-    SelectAddrMode3(Addr, Base, RegOffset, ImmOffset);
-    if (RegOffset != CurDAG->getRegister(0, MVT::i32)) {
-      // The register-offset variant of LDRD mandates that the register
-      // allocated to RegOffset is not reused in any of the remaining operands.
-      // This restriction is currently not enforced. Therefore emitting this
-      // variant is explicitly avoided.
-      Base = Addr;
-      RegOffset = CurDAG->getRegister(0, MVT::i32);
-    }
-    SDValue Ops[] = {Base, RegOffset, ImmOffset, Chain};
-    SDNode *New = CurDAG->getMachineNode(ARM::LOADDUAL, dl,
-                                         {MVT::Untyped, MVT::Other}, Ops);
-    SDValue Lo = CurDAG->getTargetExtractSubreg(ARM::gsub_0, dl, MVT::i32,
-                                                SDValue(New, 0));
-    SDValue Hi = CurDAG->getTargetExtractSubreg(ARM::gsub_1, dl, MVT::i32,
-                                                SDValue(New, 0));
-    transferMemOperands(N, New);
-    ReplaceUses(SDValue(N, 0), Lo);
-    ReplaceUses(SDValue(N, 1), Hi);
-    ReplaceUses(SDValue(N, 2), SDValue(New, 1));
-    CurDAG->RemoveDeadNode(N);
-    return;
-  }
-  case ARMISD::STRD: {
-    if (Subtarget->isThumb2())
-      break; // TableGen handles isel in this case.
-    SDValue Base, RegOffset, ImmOffset;
-    const SDValue &Chain = N->getOperand(0);
-    const SDValue &Addr = N->getOperand(3);
-    SelectAddrMode3(Addr, Base, RegOffset, ImmOffset);
-    if (RegOffset != CurDAG->getRegister(0, MVT::i32)) {
-      // The register-offset variant of STRD mandates that the register
-      // allocated to RegOffset is not reused in any of the remaining operands.
-      // This restriction is currently not enforced. Therefore emitting this
-      // variant is explicitly avoided.
-      Base = Addr;
-      RegOffset = CurDAG->getRegister(0, MVT::i32);
-    }
-    SDNode *RegPair =
-        createGPRPairNode(MVT::Untyped, N->getOperand(1), N->getOperand(2));
-    SDValue Ops[] = {SDValue(RegPair, 0), Base, RegOffset, ImmOffset, Chain};
-    SDNode *New = CurDAG->getMachineNode(ARM::STOREDUAL, dl, MVT::Other, Ops);
-    transferMemOperands(N, New);
-    ReplaceUses(SDValue(N, 0), SDValue(New, 0));
-    CurDAG->RemoveDeadNode(N);
-    return;
-  }
+  // case ARMISD::LDRD: {
+  //   if (Subtarget->isThumb2())
+  //     break; // TableGen handles isel in this case.
+  //   SDValue Base, RegOffset, ImmOffset;
+  //   const SDValue &Chain = N->getOperand(0);
+  //   const SDValue &Addr = N->getOperand(1);
+  //   SelectAddrMode3(Addr, Base, RegOffset, ImmOffset);
+  //   if (RegOffset != CurDAG->getRegister(0, MVT::i32)) {
+  //     // The register-offset variant of LDRD mandates that the register
+  //     // allocated to RegOffset is not reused in any of the remaining operands.
+  //     // This restriction is currently not enforced. Therefore emitting this
+  //     // variant is explicitly avoided.
+  //     Base = Addr;
+  //     RegOffset = CurDAG->getRegister(0, MVT::i32);
+  //   }
+  //   SDValue Ops[] = {Base, RegOffset, ImmOffset, Chain};
+  //   SDNode *New = CurDAG->getMachineNode(ARM::LOADDUAL, dl,
+  //                                        {MVT::Untyped, MVT::Other}, Ops);
+  //   SDValue Lo = CurDAG->getTargetExtractSubreg(ARM::gsub_0, dl, MVT::i32,
+  //                                               SDValue(New, 0));
+  //   SDValue Hi = CurDAG->getTargetExtractSubreg(ARM::gsub_1, dl, MVT::i32,
+  //                                               SDValue(New, 0));
+  //   transferMemOperands(N, New);
+  //   ReplaceUses(SDValue(N, 0), Lo);
+  //   ReplaceUses(SDValue(N, 1), Hi);
+  //   ReplaceUses(SDValue(N, 2), SDValue(New, 1));
+  //   CurDAG->RemoveDeadNode(N);
+  //   return;
+  // }
+  // case ARMISD::STRD: {
+  //   if (Subtarget->isThumb2())
+  //     break; // TableGen handles isel in this case.
+  //   SDValue Base, RegOffset, ImmOffset;
+  //   const SDValue &Chain = N->getOperand(0);
+  //   const SDValue &Addr = N->getOperand(3);
+  //   SelectAddrMode3(Addr, Base, RegOffset, ImmOffset);
+  //   if (RegOffset != CurDAG->getRegister(0, MVT::i32)) {
+  //     // The register-offset variant of STRD mandates that the register
+  //     // allocated to RegOffset is not reused in any of the remaining operands.
+  //     // This restriction is currently not enforced. Therefore emitting this
+  //     // variant is explicitly avoided.
+  //     Base = Addr;
+  //     RegOffset = CurDAG->getRegister(0, MVT::i32);
+  //   }
+  //   SDNode *RegPair =
+  //       createGPRPairNode(MVT::Untyped, N->getOperand(1), N->getOperand(2));
+  //   SDValue Ops[] = {SDValue(RegPair, 0), Base, RegOffset, ImmOffset, Chain};
+  //   SDNode *New = CurDAG->getMachineNode(ARM::STOREDUAL, dl, MVT::Other, Ops);
+  //   transferMemOperands(N, New);
+  //   ReplaceUses(SDValue(N, 0), SDValue(New, 0));
+  //   CurDAG->RemoveDeadNode(N);
+  //   return;
+  // }
   case ARMISD::LOOP_DEC: {
     SDValue Ops[] = { N->getOperand(1),
                       N->getOperand(2),
